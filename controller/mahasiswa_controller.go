@@ -35,7 +35,8 @@ func (c *MahasiswaController) FindDataById(ctx *gin.Context) {
 func (c *MahasiswaController) Register(ctx *gin.Context) {
 	var newData model.Mahasiswa
 
-	if err := ctx.BindJSON(&newData); err != nil {
+	err := ctx.BindJSON(&newData)
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, "Invalid Input")
 		return
 	}
@@ -47,7 +48,8 @@ func (c *MahasiswaController) Register(ctx *gin.Context) {
 func (c *MahasiswaController) Edit(ctx *gin.Context) {
 	var data model.Mahasiswa
 
-	if err := ctx.BindJSON(&data); err != nil {
+	err := ctx.BindJSON(&data)
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, "Invalid Input")
 	}
 
