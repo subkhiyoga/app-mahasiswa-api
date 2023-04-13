@@ -66,16 +66,16 @@ func (r *mahasiswaRepo) GetById(id int) any {
 	}
 
 	if mInDb.ID == 0 {
-		return "user not found"
+		return "data not found"
 	}
 
 	return mInDb
 }
 
 func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa) string {
-	query := "INSERT INTO mahasiswa (name, age, major) VALUES ($1, $2, $3)"
+	query := "INSERT INTO mahasiswa (id, name, age, major) VALUES ($1, $2, $3, $4)"
 
-	_, err := r.db.Exec(query, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major)
+	_, err := r.db.Exec(query, newMahasiswa.ID, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major)
 
 	if err != nil {
 		log.Println(err)
@@ -106,7 +106,7 @@ func (r *mahasiswaRepo) Delete(id int) string {
 	result := r.GetById(id)
 
 	// jika tidak ada, return pesan
-	if result == "user not found" {
+	if result == "datas not found" {
 		return result.(string)
 	}
 

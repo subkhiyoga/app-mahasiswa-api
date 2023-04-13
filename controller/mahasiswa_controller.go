@@ -48,8 +48,7 @@ func (c *MahasiswaController) Register(ctx *gin.Context) {
 func (c *MahasiswaController) Edit(ctx *gin.Context) {
 	var data model.Mahasiswa
 
-	err := ctx.BindJSON(&data)
-	if err != nil {
+	if err := ctx.BindJSON(&data); err != nil {
 		ctx.JSON(http.StatusBadRequest, "Invalid Input")
 	}
 
