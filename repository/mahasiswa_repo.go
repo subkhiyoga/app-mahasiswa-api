@@ -73,7 +73,7 @@ func (r *mahasiswaRepo) GetById(id int) any {
 }
 
 func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa) string {
-	query := "INSERT INTO mahasiswa (name, age, email) VALUES ($1, $2, $3)"
+	query := "INSERT INTO mahasiswa (name, age, major) VALUES ($1, $2, $3)"
 
 	_, err := r.db.Exec(query, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major)
 
