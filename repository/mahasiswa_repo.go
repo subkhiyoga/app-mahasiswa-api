@@ -73,9 +73,9 @@ func (r *mahasiswaRepo) GetById(id int) any {
 }
 
 func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa) string {
-	query := "INSERT INTO mahasiswa (id, name, age, major) VALUES ($1, $2, $3, $4)"
+	query := "INSERT INTO mahasiswa (name, age, major) VALUES ($1, $2, $3)"
 
-	_, err := r.db.Exec(query, newMahasiswa.ID, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major)
+	_, err := r.db.Exec(query, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major)
 
 	if err != nil {
 		log.Println(err)
@@ -105,12 +105,10 @@ func (r *mahasiswaRepo) Update(mahasiswa *model.Mahasiswa) string {
 func (r *mahasiswaRepo) Delete(id int) string {
 	result := r.GetById(id)
 
-	// jika tidak ada, return pesan
-	if result == "datas not found" {
+	if result == "data not found" {
 		return result.(string)
 	}
 
-	// jika ada, delete user
 	query := "DELETE FROM mahasiswa WHERE id = $1"
 	_, err := r.db.Exec(query, id)
 
