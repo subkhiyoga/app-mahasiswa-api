@@ -11,7 +11,7 @@ import (
 type MahasiswaRepo interface {
 	GetAll() any
 	GetById(id int) any
-	Create(newMahasiswa *model.Mahasiswa) string
+	Create(newMahasiswa *model.Mahasiswa, newCredential *model.Credential) string
 	Update(mahasiswa *model.Mahasiswa) string
 	Delete(id int) string
 }
@@ -73,11 +73,33 @@ func (r *mahasiswaRepo) GetById(id int) any {
 	return mInDb
 }
 
-func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa) string {
-	query := "INSERT INTO mahasiswa (name, age, major, user_name) VALUES ($1, $2, $3, $4)"
+func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa, newCredential *model.Credential) string {
+	tx, err := r.db.Begin()
+	if err != nil {
+		log.Println(err)
+		return "failed to create data"
+	}
 
-	_, err := r.db.Exec(query, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major, newMahasiswa.UserName)
+	// insert data to mahasiswa table
+	query1 := "INSERT INTO mahasiswa (name, age, major, user_name) VALUES ($1, $2, $3, $4)"
+	_, err = r.db.Exec(query1, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major, newMahasiswa.UserName)
 
+	if err != nil {
+		tx.Rollback()
+		log.Println(err)
+		return "failed to create data"
+	}
+
+	// insert data to credentials table
+	query2 := "INSERT INTO credential (username, password) VALUES ($1, $2)"
+	_, err = r.db.Exec(query2, newCredential.Username, newCredential.Password)
+	if err != nil {
+		tx.Rollback()
+		log.Println(err)
+		return "failed to create data"
+	}
+
+	err = tx.Commit()
 	if err != nil {
 		log.Println(err)
 		return "failed to create data"
@@ -94,7 +116,7 @@ func (r *mahasiswaRepo) Update(mahasiswa *model.Mahasiswa) string {
 	}
 
 	query := "UPDATE mahasiswa SET name = $1, age = $2, major = $3, user_name = $4 WHERE id = $5"
-	_, err := r.db.Exec(query, mahasiswa.Name, mahasiswa.Age, mahasiswa.Major, mahasiswa.ID)
+	_, err := r.db.Exec(query, mahasiswa.Name, mahasiswa.Age, mahasiswa.Major, mahasiswa.UserName, mahasiswa.ID)
 
 	if err != nil {
 		log.Println(err)

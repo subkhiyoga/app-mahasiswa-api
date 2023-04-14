@@ -33,15 +33,22 @@ func (c *MahasiswaController) FindDataById(ctx *gin.Context) {
 }
 
 func (c *MahasiswaController) Register(ctx *gin.Context) {
-	var newData model.Mahasiswa
+	var (
+		newDatam model.Mahasiswa
+		newDatac model.Credential
+	)
 
-	err := ctx.BindJSON(&newData)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, "Invalid Input")
+	if err := ctx.ShouldBindJSON(&newDatam); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	result := c.usecase.Register(&newData)
+	if err := ctx.ShouldBindJSON(&newDatac); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	result := c.usecase.Register(&newDatam, &newDatac)
 	ctx.JSON(http.StatusCreated, result)
 }
 

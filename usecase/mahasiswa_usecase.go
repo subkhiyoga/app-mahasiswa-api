@@ -8,7 +8,7 @@ import (
 type MahasiswaUsecase interface {
 	FindData() any
 	FindDataById(id int) any
-	Register(newMahasiswa *model.Mahasiswa) string
+	Register(newMahasiswa *model.Mahasiswa, newCredential *model.Credential) string
 	Edit(mahasiswa *model.Mahasiswa) string
 	Unreg(id int) string
 }
@@ -25,8 +25,8 @@ func (u *mahasiswaUsecase) FindDataById(id int) any {
 	return u.mahasiswaRepo.GetById(id)
 }
 
-func (u *mahasiswaUsecase) Register(newMahasiswa *model.Mahasiswa) string {
-	return u.mahasiswaRepo.Create(newMahasiswa)
+func (u *mahasiswaUsecase) Register(newMahasiswa *model.Mahasiswa, newCredential *model.Credential) string {
+	return u.mahasiswaRepo.Create(newMahasiswa, newCredential)
 }
 
 func (u *mahasiswaUsecase) Edit(mahasiswa *model.Mahasiswa) string {

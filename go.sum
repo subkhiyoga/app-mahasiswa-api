@@ -53,6 +53,8 @@ github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO
 github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/subkhiyoga/auth-jwt v0.0.0-20230414191454-0640ca71167b h1:GPRRFyCtEGWeT5hdLdMathll3t6hj2TzHDqlp/mP1Io=
 github.com/subkhiyoga/auth-jwt v0.0.0-20230414191454-0640ca71167b/go.mod h1:LY2EkIblEV98gqGz/dBs/nmalTJJfJRdSq+8bsfjHf4=
+github.com/subkhiyoga/auth-jwt v0.0.0-20230414225727-1ce8fba7a7d9 h1:H0M6K8be4c4BOsdtwNrmKg+vRTGtPPebiQp4MTc8vvg=
+github.com/subkhiyoga/auth-jwt v0.0.0-20230414225727-1ce8fba7a7d9/go.mod h1:CwQ9IiMK+2QWNCJU4oOK8F7KU97vTat4NJ5VMcPwT1Y=
 github.com/twitchyliquid64/golang-asm v0.15.1 h1:SU5vSMR7hnwNxj24w34ZyCi/FmDZTkS4MhqMhdFk5YI=
 github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2+aY1QWCk3Cedj/Gdt08=
 github.com/ugorji/go/codec v1.2.9 h1:rmenucSohSTiyL09Y+l2OCk+FrMxGMzho2+tjr5ticU=
