@@ -1,10 +1,11 @@
 package repository
 
 import (
-	"app-mahasiswa-api/model"
 	"database/sql"
 	"fmt"
 	"log"
+
+	"github.com/app-mahasiswa-api/model"
 )
 
 type MahasiswaRepo interface {
