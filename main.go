@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/app-mahasiswa-api/controller"
-	"github.com/app-mahasiswa-api/repository"
-	"github.com/app-mahasiswa-api/usecase"
+	"github.com/subkhiyoga/app-mahasiswa-api/controller"
+	"github.com/subkhiyoga/app-mahasiswa-api/repository"
+	"github.com/subkhiyoga/app-mahasiswa-api/usecase"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"

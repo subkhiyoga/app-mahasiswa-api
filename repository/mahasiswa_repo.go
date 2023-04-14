@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/app-mahasiswa-api/model"
+	"github.com/subkhiyoga/app-mahasiswa-api/model"
 )
 
 type MahasiswaRepo interface {

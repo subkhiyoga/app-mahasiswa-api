@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/app-mahasiswa-api/model"
-	"github.com/app-mahasiswa-api/repository"
+	"github.com/subkhiyoga/app-mahasiswa-api/model"
+	"github.com/subkhiyoga/app-mahasiswa-api/repository"
 )
 
 type MahasiswaUsecase interface {

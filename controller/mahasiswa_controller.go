@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/app-mahasiswa-api/model"
-	"github.com/app-mahasiswa-api/usecase"
+	"github.com/subkhiyoga/app-mahasiswa-api/model"
+	"github.com/subkhiyoga/app-mahasiswa-api/usecase"
 
 	"github.com/gin-gonic/gin"
 )
