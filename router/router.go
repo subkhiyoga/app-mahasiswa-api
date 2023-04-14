@@ -17,7 +17,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func StartServer() {
+func RunServer() {
 	s_key := []byte(utils.DotEnv("test"))
 
 	db := config.LoadDB()
