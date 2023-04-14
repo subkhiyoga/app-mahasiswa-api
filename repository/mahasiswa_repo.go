@@ -22,7 +22,7 @@ type mahasiswaRepo struct {
 func (r *mahasiswaRepo) GetAll() any {
 	var msiswa []model.Mahasiswa
 
-	query := "SELECT id, name, age, major FROM mahasiswa"
+	query := "SELECT * FROM mahasiswa"
 	rows, err := r.db.Query(query)
 
 	if err != nil {
@@ -34,7 +34,7 @@ func (r *mahasiswaRepo) GetAll() any {
 	for rows.Next() {
 		var mahasiswa model.Mahasiswa
 
-		err := rows.Scan(&mahasiswa.ID, &mahasiswa.Name, &mahasiswa.Age, &mahasiswa.Major)
+		err := rows.Scan(&mahasiswa.ID, &mahasiswa.Name, &mahasiswa.Age, &mahasiswa.Major, &mahasiswa.UserName)
 		if err != nil {
 			log.Println(err)
 		}
@@ -56,10 +56,10 @@ func (r *mahasiswaRepo) GetAll() any {
 func (r *mahasiswaRepo) GetById(id int) any {
 	var mInDb model.Mahasiswa
 
-	query := "SELECT id, name, age, major FROM mahasiswa WHERE id = $1"
+	query := "SELECT id, name, age, major, user_name FROM mahasiswa WHERE id = $1"
 	row := r.db.QueryRow(query, id)
 
-	err := row.Scan(&mInDb.ID, &mInDb.Name, &mInDb.Age, &mInDb.Major)
+	err := row.Scan(&mInDb.ID, &mInDb.Name, &mInDb.Age, &mInDb.Major, &mInDb.UserName)
 
 	if err != nil {
 		log.Println(err)
@@ -73,9 +73,9 @@ func (r *mahasiswaRepo) GetById(id int) any {
 }
 
 func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa) string {
-	query := "INSERT INTO mahasiswa (name, age, major) VALUES ($1, $2, $3)"
+	query := "INSERT INTO mahasiswa (name, age, major, user_name) VALUES ($1, $2, $3, $4)"
 
-	_, err := r.db.Exec(query, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major)
+	_, err := r.db.Exec(query, newMahasiswa.Name, newMahasiswa.Age, newMahasiswa.Major, newMahasiswa.UserName)
 
 	if err != nil {
 		log.Println(err)
@@ -92,7 +92,7 @@ func (r *mahasiswaRepo) Update(mahasiswa *model.Mahasiswa) string {
 		return result.(string)
 	}
 
-	query := "UPDATE mahasiswa SET name = $1, age = $2, major = $3 WHERE id = $4"
+	query := "UPDATE mahasiswa SET name = $1, age = $2, major = $3, user_name = $4 WHERE id = $5"
 	_, err := r.db.Exec(query, mahasiswa.Name, mahasiswa.Age, mahasiswa.Major, mahasiswa.ID)
 
 	if err != nil {
