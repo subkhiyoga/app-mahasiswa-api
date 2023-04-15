@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/subkhiyoga/app-mahasiswa-api/model"
+	"github.com/subkhiyoga/app-mahasiswa-api/model/response"
 	"github.com/subkhiyoga/app-mahasiswa-api/usecase"
 
 	"github.com/gin-gonic/gin"
@@ -16,63 +17,60 @@ type MahasiswaController struct {
 
 func (c *MahasiswaController) FindData(ctx *gin.Context) {
 	result := c.usecase.FindData()
-
-	ctx.JSON(http.StatusOK, result)
+	if result == nil {
+		response.JSONErrorResponse(ctx.Writer, http.StatusInternalServerError, "Failed to get students")
+		return
+	}
+	response.JSONSuccess(ctx.Writer, http.StatusOK, result)
 }
 
 func (c *MahasiswaController) FindDataById(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
-
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, "Invalid data ID")
+		response.JSONErrorResponse(ctx.Writer, http.StatusBadRequest, "Invalid user ID")
 		return
 	}
 
 	result := c.usecase.FindDataById(id)
-	ctx.JSON(http.StatusOK, result)
+	response.JSONSuccess(ctx.Writer, http.StatusOK, result)
 }
 
 func (c *MahasiswaController) Register(ctx *gin.Context) {
 	var (
-		newDatam model.Mahasiswa
-		newDatac model.Credential
+		newMahasiswa  model.Mahasiswa
+		newCredential model.Credential
 	)
 
-	if err := ctx.ShouldBindJSON(&newDatam); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := ctx.BindJSON(&newMahasiswa); err != nil {
+		response.JSONErrorResponse(ctx.Writer, http.StatusBadRequest, "Invalid Input")
 		return
 	}
 
-	if err := ctx.ShouldBindJSON(&newDatac); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	result := c.usecase.Register(&newDatam, &newDatac)
-	ctx.JSON(http.StatusCreated, result)
+	result := c.usecase.Register(&newMahasiswa, &newCredential)
+	response.JSONSuccess(ctx.Writer, http.StatusCreated, result)
 }
 
 func (c *MahasiswaController) Edit(ctx *gin.Context) {
 	var data model.Mahasiswa
 
-	err := ctx.BindJSON(&data)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, "Invalid Input")
+	if err := ctx.BindJSON(&data); err != nil {
+		response.JSONErrorResponse(ctx.Writer, http.StatusBadRequest, "Invalid Input")
+		return
 	}
 
-	result := c.usecase.Edit(&data)
-	ctx.JSON(http.StatusOK, result)
+	res := c.usecase.Edit(&data)
+	response.JSONSuccess(ctx.Writer, http.StatusOK, res)
 }
 
 func (c *MahasiswaController) Unreg(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, "Invalid data ID")
+		response.JSONErrorResponse(ctx.Writer, http.StatusBadRequest, "Invalid user ID")
 		return
 	}
 
 	result := c.usecase.Unreg(id)
-	ctx.JSON(http.StatusOK, result)
+	response.JSONSuccess(ctx.Writer, http.StatusOK, result)
 }
 
 func NewMahasiswaController(u usecase.MahasiswaUsecase) *MahasiswaController {
