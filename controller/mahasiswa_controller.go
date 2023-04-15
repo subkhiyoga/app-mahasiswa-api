@@ -36,17 +36,14 @@ func (c *MahasiswaController) FindDataById(ctx *gin.Context) {
 }
 
 func (c *MahasiswaController) Register(ctx *gin.Context) {
-	var (
-		newMahasiswa  model.Mahasiswa
-		newCredential model.Credential
-	)
+	var newMahasiswa model.Mahasiswa
 
 	if err := ctx.BindJSON(&newMahasiswa); err != nil {
 		response.JSONErrorResponse(ctx.Writer, http.StatusBadRequest, "Invalid Input")
 		return
 	}
 
-	result := c.usecase.Register(&newMahasiswa, &newCredential)
+	result := c.usecase.Register(&newMahasiswa)
 	response.JSONSuccess(ctx.Writer, http.StatusCreated, result)
 }
 

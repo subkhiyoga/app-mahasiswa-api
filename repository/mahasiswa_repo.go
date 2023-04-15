@@ -11,7 +11,7 @@ import (
 type MahasiswaRepo interface {
 	GetAll() any
 	GetById(id int) any
-	Create(newMahasiswa *model.Mahasiswa, newCredential *model.Credential) string
+	Create(newMahasiswa *model.Mahasiswa) string
 	Update(mahasiswa *model.Mahasiswa) string
 	Delete(id int) string
 }
@@ -23,13 +23,15 @@ type mahasiswaRepo struct {
 func (r *mahasiswaRepo) GetAll() any {
 	var msiswa []model.Mahasiswa
 
-	query := "SELECT * FROM mahasiswa"
+	query := "SELECT * FROM mahasiswa m JOIN credentials c ON m.user_name = c.username"
 	rows, err := r.db.Query(query)
 
 	if err != nil {
 		log.Println(err)
 	}
-
+	if rows == nil {
+		return "no data"
+	}
 	defer rows.Close()
 
 	for rows.Next() {
@@ -73,7 +75,7 @@ func (r *mahasiswaRepo) GetById(id int) any {
 	return mInDb
 }
 
-func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa, newCredential *model.Credential) string {
+func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa) string {
 	tx, err := r.db.Begin()
 	if err != nil {
 		log.Println(err)
@@ -92,7 +94,7 @@ func (r *mahasiswaRepo) Create(newMahasiswa *model.Mahasiswa, newCredential *mod
 
 	// insert data to credentials table
 	query2 := "INSERT INTO credential (username, password) VALUES ($1, $2)"
-	_, err = r.db.Exec(query2, newCredential.Username, newCredential.Password)
+	_, err = r.db.Exec(query2, newMahasiswa.Username, newMahasiswa.C_Password)
 	if err != nil {
 		tx.Rollback()
 		log.Println(err)
