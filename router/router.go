@@ -18,7 +18,7 @@ import (
 )
 
 func RunServer() {
-	s_key := []byte(utils.DotEnv("test"))
+	s_key := []byte(utils.DotEnv("KEY"))
 
 	db := config.LoadDB()
 	defer db.Close()
